@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <values.h>
+
+#define NUMLETTER 128
+#define TEXT 1
+#define BINARY 2
+#define ENCODEMODE 0
+#define DECODEMODE 1
+#define QUEUE 0
+#define STACK 1
+#define SORTED 2
+
+typedef struct {
+  char value;
+  int freq;
+} CharFreq;
+
+typedef struct treenode {
+  struct treenode * left;
+  struct treenode * right;
+  char value;
+  int freq;
+} TreeNode;
+
+typedef struct listnode {
+  struct listnode * next;
+  TreeNode * tnptr;
+} ListNode;
+
+int writeBit(FILE * fptr, unsigned char bit, unsigned char * whichbit, unsigned char * curbyte);
+
+int padZero(FILE * fptr, unsigned char * whichbit, unsigned char * curbyte);
+
+int readBit(FILE * fptr, unsigned char * bit, unsigned char * whichbit, unsigned char * curbyte);
+
+int countFrequency(char * filename, CharFreq * frequencies);
+
+void printFrequency(CharFreq * frequencies);
+
+void sortFrequency(CharFreq * frequencies);
+
+int encode(char * infile, char * outfile);
+
+int decode(char * infile, char * outfile);
+
+void printFrequencyLatex(CharFreq * frequencies);
+
+TreeNode * TreeNode_create(char val, int freq);
+
+TreeNode * Tree_merge(TreeNode * tn1, TreeNode * tn2);
+
+void Tree_print(TreeNode * tn, int level);
+
+//find the maximum height of the leaf nodes
+int Tree_height(TreeNode * tn);
+
+//find the number of leaf nodes
+int Tree_leaf(TreeNode * tn);
+
+//save the header of a compressed file
+void Tree_header(TreeNode * tn, unsigned int numChar, char * outfile);
+
+void Tree_destroy(TreeNode * tn);
+
+ListNode * List_build(CharFreq * frequencies);
+
+ListNode * ListNode_create(TreeNode * tn);
+
+ListNode * List_insert(ListNode * head, ListNode * ln, int mode);
+
+void List_print(ListNode * head);
+

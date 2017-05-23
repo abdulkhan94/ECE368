@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <strings.h>
+
+#define MAX 128;
+
+
+typedef struct Tree{
+  struct Tree *left;
+  struct Tree *right;
+  int frequency;
+  char val;
+}TreeNode;
+
+typedef struct ListNode{
+  struct ListNode *next;
+  TreeNode *tptr;
+}ListNode;
+
+typedef struct{
+  char value;
+  int frequency;
+}ASCII_Freq;
+
+
+
+
+int count_Freq(char * filename, ASCII_Freq * frequencies);
+
+static int compare_freq(const void *p1, const void *p2);
+
+void sort_freq(ASCII_Freq *frequencies);
+
+TreeNode *create_TreeNode(char val, int freq);
+
+TreeNode *merge_TreeNode(TreeNode *tn_1, TreeNode *tn_2);
+
+ListNode *create_list(TreeNode *tree_node);
+
+ListNode *insert_list(ListNode *head, ListNode *n);
+
+ListNode *build_list(ASCII_Freq * frequencies);
+
+int theight_help(TreeNode *tree_node, int height);
+
+void tleaf_help(TreeNode *tree_node, int *number);
+
+int theight(TreeNode *tree_node);
+
+int tleaf(TreeNode *tree_node);
+
+void build_cbookhelp(TreeNode *tree_node, int * * cbook, int *row, int col);
+
+void build_cbook(TreeNode *root, int ** cbook);
+
+int wBit(FILE *fptr, unsigned char bit, unsigned char *wbit, unsigned char *cbyte);
+
+static void char2bits(FILE *optr, int ch, unsigned char *wbit, unsigned char *cbyte);
+
+static void thead_help(TreeNode *tree_node, FILE *optr, unsigned char *wbit, unsigned char *cbyte);
+
+void theaders(TreeNode *tree_node, char *out);
+
+int compress(char * infile, char *outfile, int ** cbook, int * mapping);
+
+int ** encode_list(char *in_file,char *out_file);
+
+void destroy_tree(TreeNode *tn);
+
+
+
+

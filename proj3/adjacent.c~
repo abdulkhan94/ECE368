@@ -1,0 +1,111 @@
+#include "adj.h"
+
+//This is basically used to create a new adjacency list node
+struct AdjLN* new_AdjLN(int destination)
+{
+  //Variables
+  struct AdjLN* nnode=(struct AdjLN*)malloc(sizeof(struct AdjLN));
+  
+  //Executions
+  nnode->dest=destination;
+
+  nnode->next=NULL;
+
+  return nnode;
+}
+
+//This is basically used to create the graph. V is the number of vertices in the graph
+struct Graph* create_Graph(int V)
+{
+  //Variables
+  struct Graph* n_graph=(struct Graph*) malloc(sizeof(struct Graph));
+
+  //Executions
+  n_graph->ver=V;
+
+  n_graph->array = (struct AdjL*) malloc(V * sizeof(struct AdjL));//Used to create an array with size V
+  int ind=0;
+  while(ind<V)//To initialize the list
+    {
+      n_graph->array[ind].head = NULL;
+      ind=ind+1;
+    }
+  return n_graph;
+}
+
+//This function is used to make connections/edges between nodes. It accepts the two nodes the connection has to be made between. It makes a connection from source to destination and also from destination to source since the graph is undirected
+void new_Edge(struct Graph* n_graph, int source, int destination)
+{
+  //Variables
+  struct AdjLN* nnode=new_AdjLN(destination);
+
+  //Executions
+  nnode->next=n_graph->array[source].head;
+  n_graph->array[source].head=nnode;
+  nnode=new_AdjLN(source);
+  nnode->next=n_graph->array[destination].head;
+  n_graph->array[destination].head=nnode;
+}
+
+
+
+int main(int argc, char* argv[])
+{
+  //Variables
+  char const* const fn=argv[1];//To make sure an input argument is provided
+  FILE* f=fopen(fn, "r"); //checks the result
+  char line[256]; //Array where everything in the input file will be stored per line
+  int x;//When the first line is read x and y are used to store the number of vertices and number of edges.
+  int y;
+  int temp; //These are the variables used to store the vertex and its coordinates 
+  int xcord;
+  int ycord;
+  int tester=1;
+  //Executions
+  while (fgets(line,sizeof(line),f)) {
+    tester++; //fgets used to get input from file f to line where we store it
+  }
+  rewind(f);
+  fscanf(f,"%d %d",&x,&y); //To store the vertices and edges
+ 
+  //Basically used to go through the lines where the vertex and its coordinates are and skip to the line where the connections/edges start
+  int ind;
+  for(ind=0; ind<x; ind++)
+    {
+      fscanf(f, "%d %d %d", &temp, &xcord, &ycord);
+    }
+  int ind_2;
+  int a=x;
+  int b=y;
+  //At this point we are on the line where the edges are formed. We read them accordingly and call the new_Edge function to start making connections between the two specified vertices.
+  struct Graph* graph=create_Graph(a);
+  for(ind_2=0;ind_2<b;ind_2++)
+    {  
+      fscanf(f,"%d %d",&x, &y);
+      new_Edge(graph,x,y);
+    }
+  print_Graph(graph);
+
+  return 0;
+}
+
+//Function used to print the graph
+void print_Graph(struct Graph* n_graph)
+{
+  //Variables
+  int ind=0;
+  
+  //Executions
+  while(ind<n_graph->ver)
+    {
+      struct AdjLN* pc=n_graph->array[ind].head;
+      printf("%d : ",ind);
+      while(pc)
+        {
+          printf("%d ",pc->dest);
+          pc=pc->next;
+        }
+      printf("\n");
+      ind=ind+1;
+    }
+}

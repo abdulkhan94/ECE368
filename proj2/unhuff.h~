@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <strings.h>
+
+
+typedef struct Tree{
+  struct Tree *left;
+  struct Tree *right;
+  int frequency;
+  char val;
+}TreeNode;
+
+typedef struct ListNode{
+  struct ListNode *next;
+  TreeNode *tptr;
+}ListNode;
+
+typedef struct{
+  char value;
+  int frequency;
+}ASCII_Freq;
+
+TreeNode * readHeader(FILE * infptr);
+
+int decode(char * infile, char * outfile);
+
+ListNode *create_list(TreeNode *tree_node);
+
+ListNode *insert_list(ListNode *head, ListNode *n, int mode);
+
+void destroy_tree(TreeNode *n);
+
+TreeNode *create_TreeNode(char val, int freq);
+
+TreeNode *merge_TreeNode(TreeNode *tn_1, TreeNode *tn_2);
+
+int readBit(FILE *fptr,unsigned char *bit,unsigned char *whichbit,unsigned char *curbyte);
+
+static ListNode * MergeListNode(ListNode * head, int endec);

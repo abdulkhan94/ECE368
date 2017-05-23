@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+//Structure to represent the graph
+struct Graph
+{
+  int ver;
+  struct AdjL* array;
+};
+
+//Structure to represent adjacency list node
+struct AdjLN
+{
+  int dest;
+  struct AdjLN* next;
+};
+
+//Structure to represent adjacency list
+struct AdjL 
+{
+  struct AdjLN *head;
+};
+
+
+void new_Edge(struct Graph* n_graph, int source, int destination);
+
+void print_Graph(struct Graph* n_graph);
